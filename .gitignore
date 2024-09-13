@@ -1,0 +1,17 @@
+# Ignore virtual environment
+env/
+.venv/
+
+# Ignore Python compiled files
+*.pyc
+__pycache__/
+
+# Ignore media and static files
+/media/
+/static/
+
+# Ignore Django secret key and environment variables
+.env
+
+# Ignore other system files
+.DS_Store
