@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # ...
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,27 +42,36 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites', # Required for django-allauth
+    'social_django', #django-social-auth
 
     'rest_framework',
     'rest_framework.authtoken',  # Token Authentication
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',  # Google OAuth
     'modeltranslation',
 
     'users',
     'vetbook',
     'questions',
     'apps',
+
+
 ]
 
+"""social-auth"""
+
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # Django's default backend
-    'allauth.account.auth_backends.AuthenticationBackend',  # allauth backend
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 SITE_ID = 1
+LOGIN_REDIRECT_URL = 'https://127.0.0.1:8000/users/registration',# REDIRECT после регистрации
+SOCIAL_AUTH_URL_NAMESPACE = 'social' #пространство имен social
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1039945308403-l70kp33arki54h0c9o6mivkvifurbqev.apps.googleusercontent.com' # ИД клиента Google
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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' # Секрет клиента Google
+
+"""End social-auth"""
+
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -79,7 +90,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'FreeVet.urls'
@@ -108,22 +118,19 @@ WSGI_APPLICATION = 'FreeVet.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
-# Настройки Twilio (или Plivo)
-TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
-TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
 
-# Настройки Stripe
-STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
-STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
+# # Настройки Twilio (или Plivo)
+# TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
+# TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
+#
+# # Настройки Stripe
+# STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+# STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
