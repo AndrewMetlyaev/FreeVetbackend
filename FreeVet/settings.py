@@ -64,10 +64,10 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 1
-LOGIN_REDIRECT_URL = 'https://127.0.0.1:8000/users/registration',# REDIRECT после регистрации
+LOGIN_REDIRECT_URL = 'https://127.0.0.1:8000/users/registration'# REDIRECT после регистрации
 SOCIAL_AUTH_URL_NAMESPACE = 'social' #пространство имен social
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1039945308403-l70kp33arki54h0c9o6mivkvifurbqev.apps.googleusercontent.com' # ИД клиента Google
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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' # Секрет клиента Google
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1039945308403-lvqi1omlavlk27qltmjtooki4hoengsd.apps.googleusercontent.com' # ИД клиента Google
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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' # Секрет клиента Google
 
 """End social-auth"""
 
