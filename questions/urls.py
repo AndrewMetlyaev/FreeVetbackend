@@ -4,4 +4,5 @@ from .views import QuestionCreateAPIView
 urlpatterns = [
 
     path('api/questions/', QuestionCreateAPIView.as_view(), name='question-create'),
+
 ]

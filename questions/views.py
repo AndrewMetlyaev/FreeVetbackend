@@ -5,4 +5,3 @@ from .serializers import QuestionSerializer
 class QuestionCreateAPIView(generics.CreateAPIView):
     queryset = QuestionAnimal.objects.all()
     serializer_class = QuestionSerializer
-
