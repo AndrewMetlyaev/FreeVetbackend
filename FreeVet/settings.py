@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from decouple import config
+from django.urls import reverse_lazy
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['eca5dd68ed8c4276a51b02a1e30f7bb7.serveo.net', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -52,8 +53,6 @@ INSTALLED_APPS = [
     'vetbook',
     'questions',
     'apps',
-
-
 ]
 
 """social-auth"""
@@ -65,19 +64,29 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 1
-LOGIN_REDIRECT_URL = 'https://127.0.0.1:8000/users/registration'# REDIRECT после регистрации
+LOGIN_REDIRECT_URL = reverse_lazy('custom_login_redirect')# REDIRECT после регистрации
 SOCIAL_AUTH_URL_NAMESPACE = 'social' #пространство имен social
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1039945308403-lvqi1omlavlk27qltmjtooki4hoengsd.apps.googleusercontent.com' # ИД клиента Google
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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' # Секрет клиента Google
 
-SOCIAL_AUTH_FACEBOOK_KEY = '1186656015942216' # ИД приложения Facebook
-SOCIAL_AUTH_FACEBOOK_SECRET = 'ad7c199b22dafe5e225bbe39af363b21' # Секрет приложения Facebook
+SOCIAL_AUTH_FACEBOOK_KEY='1186656015942216'
+SOCIAL_AUTH_FACEBOOK_SECRET='ad7c199b22dafe5e225bbe39af363b21'
+
 
 SOCIAL_AUTH_PIPELINE = (
-
-    'users.pipeline.save_profile',  # Кастомный PIPELINE для создания профиля пользвователя в БД
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',  # Добавлено для генерации username
+    'social_core.pipeline.user.create_user',
+    'users.pipeline.save_profile',  # Кастомный пайплайн для создания профиля
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
 )
+
+
 
 """End social-auth"""
 

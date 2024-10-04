@@ -4,7 +4,10 @@
 from django.contrib.auth.models import User
 from .models import Profile
 
+
 def save_profile(backend, user, response, *args, **kwargs):
+
+
     # Получаем или создаем профиль пользователя
     profile, created = Profile.objects.get_or_create(user=user)
 
@@ -31,3 +34,11 @@ def save_profile(backend, user, response, *args, **kwargs):
 
     # Сохраняем изменения
     profile.save()
+
+
+    # Сохранение URL для редиректа в сессии
+    if created:
+
+        kwargs['request'].session['redirect_url'] = 'http://localhost:5173/register'
+    else:
+        kwargs['request'].session['redirect_url'] = 'http://localhost:5173/main'

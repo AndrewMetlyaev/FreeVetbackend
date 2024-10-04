@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import generics
+from .models import QuestionAnimal
+from .serializers import QuestionSerializer
 
-# Create your views here.
+class QuestionCreateAPIView(generics.CreateAPIView):
+    queryset = QuestionAnimal.objects.all()
+    serializer_class = QuestionSerializer
+
