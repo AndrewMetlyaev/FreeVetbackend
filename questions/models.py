@@ -1,5 +1,7 @@
 from django.db import models
 
+
+"""Question model"""
 class QuestionAnimal(models.Model):
     photo = models.ImageField(upload_to='questions/photos/', blank=True, null=True)
     animal_type = models.CharField(max_length=50)

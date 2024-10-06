@@ -1,5 +1,5 @@
 
-"""PIPELINE для создания профиля пользвователя в БД"""
+"""Pipeline for creating a user profile in the database"""
 
 from django.contrib.auth.models import User
 from .models import Profile
@@ -7,11 +7,8 @@ from .models import Profile
 
 def save_profile(backend, user, response, *args, **kwargs):
 
-
-    # Получаем или создаем профиль пользователя
     profile, created = Profile.objects.get_or_create(user=user)
 
-    # Получаем данные из ответа
     if backend.name == 'facebook':
         profile.auth_provider = 'Facebook'
         profile.first_name = response.get('first_name', '')
@@ -28,17 +25,12 @@ def save_profile(backend, user, response, *args, **kwargs):
         profile.last_name = response.get('name', {}).get('lastName', '')
         profile.email = response.get('email', '')
 
-    # Обновление информации из auth_user
     profile.last_login_time = user.last_login  # Время последнего входа
     profile.registration_time = user.date_joined  # Время регистрации
 
-    # Сохраняем изменения
     profile.save()
 
-
-    # Сохранение URL для редиректа в сессии
     if created:
-
         kwargs['request'].session['redirect_url'] = 'http://localhost:5173/register'
     else:
         kwargs['request'].session['redirect_url'] = 'http://localhost:5173/main'
