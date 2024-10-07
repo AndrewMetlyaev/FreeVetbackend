@@ -2,12 +2,18 @@ from django.db import models
 
 
 """Question model"""
-class QuestionAnimal(models.Model):
-    photo = models.ImageField(upload_to='questions/photos/', blank=True, null=True)
-    animal_type = models.CharField(max_length=50)
-    weight = models.FloatField()
-    gender = models.CharField(max_length=10)
-    is_stray = models.BooleanField(default=False)
+
+class Question(models.Model):
+    question = models.TextField()
+    pet_art = models.CharField(max_length=100)
+    pet_weight = models.CharField(max_length=100)
+    pet_gender = models.CharField(max_length=50)
+    is_homeless = models.BooleanField()
+    files = models.FileField(upload_to='questions_files/', blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.animal_type} ({self.weight} kg)"
+        return self.question
+
+

@@ -1,10 +1,8 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
-from .views import QuestionCreateAPIView
+from .views import add_question
 
-
-"""API for creating a question"""
 urlpatterns = [
-
-    path('api/questions/', QuestionCreateAPIView.as_view(), name='question-create'),
-
-]
+    path('api/add/', add_question, name='add_question'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
