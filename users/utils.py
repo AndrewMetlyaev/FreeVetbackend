@@ -1,7 +1,7 @@
 from twilio.rest import Client
 from django.conf import settings
 
-"""send_sms via Twilio"""
+"""Send_sms via Twilio"""
 
 def send_sms(phone, verification_code):
     client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
