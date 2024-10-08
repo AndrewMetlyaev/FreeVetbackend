@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Profile
 
+"""Create JSON for Twilio"""
 
 class RegisterSerializer(serializers.ModelSerializer):
     phone = serializers.CharField(max_length=20)

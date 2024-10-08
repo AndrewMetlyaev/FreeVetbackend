@@ -31,8 +31,6 @@ def facebook_oauth_redirect(request):
 
 """Authorization via Twilio"""
 
-
-
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
