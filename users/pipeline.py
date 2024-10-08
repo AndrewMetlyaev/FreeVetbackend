@@ -31,6 +31,7 @@ def save_profile(backend, user, response, *args, **kwargs):
     profile.save()
 
     if created:
+
         kwargs['request'].session['redirect_url'] = 'http://localhost:5173/register'
     else:
         kwargs['request'].session['redirect_url'] = 'http://localhost:5173/main'
