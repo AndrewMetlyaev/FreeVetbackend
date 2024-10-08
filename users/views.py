@@ -1,8 +1,15 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.conf import settings
-from django.urls import path
 from django.http import HttpResponseRedirect
+from rest_framework import generics, status
+from rest_framework.response import Response
+from .models import Profile
+from .serializers import RegisterSerializer, LoginSerializer, SMSVerificationSerializer
+from .utils import send_sms
+from django.utils import timezone
+from datetime import timedelta
+import random
 
 
 """Redirect after registration and authorization"""
@@ -23,6 +30,16 @@ def facebook_oauth_redirect(request):
 
 
 """Authorization via Twilio"""
+
+
+
+class RegisterView(generics.CreateAPIView):
+    serializer_class = RegisterSerializer
+
+    def perform_create(self, serializer):
+        profile = Profile.objects.create(phone=serializer.validated_data['phone'])
+        profile.generate_sms_code()  # Генерация кода
+        send_sms(profile.phone, f"Your code is {profile.sms_code}")
 
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
