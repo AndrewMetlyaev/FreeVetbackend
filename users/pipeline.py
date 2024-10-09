@@ -31,6 +31,8 @@ def save_profile(backend, user, response, *args, **kwargs):
 
     if created:
 
-        kwargs['request'].session['redirect_url'] = 'http://localhost:5173/register'
+        kwargs['request'].session['redirect_url'] = 'http://localhost:5173/verification/role'
+
     else:
+
         kwargs['request'].session['redirect_url'] = 'http://localhost:5173/main'

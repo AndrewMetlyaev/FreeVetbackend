@@ -6,5 +6,5 @@ from .views import add_question
 """API for saving a question"""
 
 urlpatterns = [
-    path('api/add/', add_question, name='add_question'),
+    path('add/', add_question, name='add_question'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
