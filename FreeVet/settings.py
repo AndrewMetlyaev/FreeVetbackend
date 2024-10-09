@@ -25,6 +25,8 @@ Env.read_env(BASE_DIR / '.env')
 BASE_URL = 'https://localhost:8000' #Base URL
 
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173"]  # Разрешаем запросы с вашего клиентского домена
 
 
 
@@ -109,7 +111,9 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -118,8 +122,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
+
 
 ]
 

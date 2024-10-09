@@ -9,7 +9,7 @@ from .serializers import RegisterSerializer, LoginSerializer, SMSVerificationSer
 from .utils import send_sms
 from django.utils import timezone
 from datetime import timedelta
-import random
+
 
 
 """Redirect after registration and authorization"""
