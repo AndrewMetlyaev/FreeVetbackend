@@ -1,6 +1,5 @@
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
-from django.shortcuts import render
 from django.shortcuts import redirect
 from django.conf import settings
 from django.http import HttpResponseRedirect
@@ -12,6 +11,7 @@ from .serializers import RegisterSerializer, LoginSerializer, SMSVerificationSer
 from .utils import send_sms
 from django.utils import timezone
 from datetime import timedelta
+from rest_framework.generics import CreateAPIView
 
 
 
@@ -34,13 +34,24 @@ def facebook_oauth_redirect(request):
 
 """Authorization via Twilio"""
 
-class RegisterView(generics.CreateAPIView):
-    serializer_class = RegisterSerializer
+class RegisterView(CreateAPIView):
+    def post(self, request, *args, **kwargs):
+        serializer = RegisterSerializer(data=request.data)
 
-    def perform_create(self, serializer):
-        profile = Profile.objects.create(phone=serializer.validated_data['phone'])
-        profile.generate_sms_code()  # Генерация кода
-        send_sms(profile.phone, f"Your code is {profile.sms_code}")
+        # Проверяем валидность входящих данных
+        if serializer.is_valid():
+            photo = request.FILES.get('photo', None)
+            profile = Profile.objects.create(
+                name=serializer.validated_data['name'],
+                phone=serializer.validated_data['phone'],
+                photo=photo  # Устанавливаем фото, если оно передано
+            )
+            profile.generate_sms_code()  # Генерация кода
+            send_sms(profile.phone, f"Your code is {profile.sms_code}")
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
@@ -99,12 +110,3 @@ class VerifyCodeView(generics.GenericAPIView):
             return Response({"error": "Invalid code"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-"""Created for testing; it will be removed later"""
-def some_view(request):
-    return render(request, 'index.html')
-
-def registration_success(request):
-    return render(request, 'registration_success.html')
-
-def question_post(request):
-    return render(request, 'question.html')
