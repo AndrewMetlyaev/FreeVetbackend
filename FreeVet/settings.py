@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',  # Required for django-allauth
     'social_django',  # django-social-auth
+    'drf_yasg',
 
     'rest_framework',
     'rest_framework.authtoken',  # Token Authentication
