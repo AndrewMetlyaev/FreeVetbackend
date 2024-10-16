@@ -1,16 +1,19 @@
 from django.urls import path,include
+from rest_framework_simplejwt.views import TokenRefreshView
 from .views import (
     some_view,
     registration_success,
     custom_login_redirect,
     question_post,
     google_oauth_redirect,
-    facebook_oauth_redirect
+    facebook_oauth_redirect,
 )
 from .views import RegisterView, LoginView, VerifyCodeView
 
 
 urlpatterns = [
+
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('social-auth/',
          include('social_django.urls', namespace='social')), #social-auth
