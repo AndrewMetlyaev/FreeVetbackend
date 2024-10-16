@@ -1,7 +1,8 @@
 """Pipeline for creating a user profile in the database"""
 
-
+from django.conf import settings
 from .models import Profile
+
 
 
 def save_profile(backend, user, response, *args, **kwargs):
@@ -29,9 +30,9 @@ def save_profile(backend, user, response, *args, **kwargs):
 
     profile.save()
 
-
-
     if created:
-        kwargs['request'].session['redirect_url'] = f'http://localhost:5173/verification/role?user_id={user.id}'
+        redirect_url = f'{settings.BASE_URL}/verification/role?user_id={user.id}'
     else:
-        kwargs['request'].session['redirect_url'] = f'http://localhost:5173/main?user_id={user.id}'
+        redirect_url = f'{settings.BASE_URL}/main?user_id={user.id}'
+
+    kwargs['request'].session['redirect_url'] = redirect_url
