@@ -138,11 +138,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'FreeVet.wsgi.application'
 
 DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',  # Используем SQLite
-            'NAME': BASE_DIR / 'db.sqlite3',  # Путь к файлу базы данных (по умолчанию db.sqlite3 в корне проекта)
-        },
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
+}
 
 # Настройки Twilio (или Plivo)
 TWILIO_ACCOUNT_SID = env('TWILIO_ACCOUNT_SID')
