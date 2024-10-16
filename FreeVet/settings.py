@@ -25,9 +25,7 @@ Env.read_env(BASE_DIR / '.env')
 BASE_URL = ''  # Base URL
 
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173"  # Разрешаем запросы с вашего клиентского домена
-]
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
