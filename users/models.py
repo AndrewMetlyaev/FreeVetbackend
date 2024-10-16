@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 import random
@@ -9,6 +10,7 @@ import random
 
 class Profile(models.Model):
 
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     photo = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     auth_provider = models.CharField(max_length=50, default='Twilio')                   # Социальная сеть
     name = models.CharField(max_length=50)                                              # Имя
