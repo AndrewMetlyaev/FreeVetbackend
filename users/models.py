@@ -19,7 +19,7 @@ class Profile(models.Model):
     is_user = models.BooleanField(default=False)                                        # Роль
     is_active = models.BooleanField(default=False)                                      # Состояние аккаунта
     last_name = models.CharField(max_length=30, blank=True, null=True)                  # Фамилия
-    phone = models.CharField(max_length=50, unique=True)                                # Номер телефона
+    phone = models.CharField(max_length=50, unique=True, blank=True, null=True)         # Номер телефона
     email = models.EmailField(unique=True, blank=True, null=True)                       # Почта
 
 # Новые поля для SMS-кода
