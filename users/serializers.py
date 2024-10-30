@@ -2,6 +2,12 @@ from rest_framework import serializers
 from .models import Profile
 
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['homelessAnimals', 'pets', 'volunteer', 'shelterWorker', 'petOwner']
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     phone = serializers.CharField(max_length=20)
     photo = serializers.ImageField(required=False, allow_null=True)

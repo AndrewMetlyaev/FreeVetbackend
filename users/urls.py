@@ -5,14 +5,16 @@ from .views import (
     google_oauth_redirect,
     facebook_oauth_redirect
 )
-from .views import RegisterView, LoginView, VerifyCodeView
+from .views import RegisterView, LoginView, VerifyCodeView, UpdateProfileFieldsView
 from django.conf.urls.static import static
 from django.conf import settings
 
 
 urlpatterns = [
 
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('update/', UpdateProfileFieldsView.as_view(), name='update-profile-fields'),
 
     path('social-auth/',
          include('social_django.urls', namespace='social')), #social-auth

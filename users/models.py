@@ -22,6 +22,14 @@ class Profile(models.Model):
     phone = models.CharField(max_length=50, unique=True, blank=True, null=True)         # Номер телефона
     email = models.EmailField(unique=True, blank=True, null=True)                       # Почта
 
+    # Новые необязательные логические поля
+    homelessAnimals = models.BooleanField(default=False)                                # Бездомные животные
+    pets = models.BooleanField(default=False)                                           # Домашние животные
+    volunteer = models.BooleanField(default=False)                                      # Волонтер
+    shelterWorker = models.BooleanField(default=False)                                  # Работник приюта
+    petOwner = models.BooleanField(default=False)
+
+
 # Новые поля для SMS-кода
     sms_code = models.CharField(max_length=6, blank=True, null=True)
     code_sent_time = models.DateTimeField(blank=True, null=True)
