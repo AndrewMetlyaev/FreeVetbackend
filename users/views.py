@@ -7,12 +7,30 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from .models import Profile
-from .serializers import RegisterSerializer, LoginSerializer, SMSVerificationSerializer
+from .serializers import RegisterSerializer, LoginSerializer, SMSVerificationSerializer, ProfileSerializer
 from .utils import send_sms
 from django.utils import timezone
 from datetime import timedelta
 from rest_framework.generics import CreateAPIView
+from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
 
+
+"""The update of boolean fields"""
+
+class UpdateProfileFieldsView(APIView):
+    def post(self, request, *args, **kwargs):
+        # Получаем user_id из запроса
+        user_id = request.data.get('user_id')
+        # Ищем профиль с указанным user_id
+        profile = get_object_or_404(Profile, user_id=user_id)
+
+        # Десериализуем и проверяем данные
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 """Redirect after registration and authorization"""
@@ -30,6 +48,8 @@ def google_oauth_redirect(request):
 def facebook_oauth_redirect(request):
     redirect_url = f"{settings.BASE_URL}/api/users/social-auth/login/facebook/"
     return HttpResponseRedirect(redirect_url)
+
+
 
 
 """Authorization via Twilio"""
@@ -108,5 +128,6 @@ class VerifyCodeView(generics.GenericAPIView):
 
         except Profile.DoesNotExist:
             return Response({"error": "Invalid code"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 

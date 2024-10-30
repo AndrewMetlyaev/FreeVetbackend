@@ -1,25 +1,26 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Question,QuestionFile
+from .models import Question, QuestionFile
+import json
 
 """Function for saving a question"""
 
 @csrf_exempt  # Для упрощения, но лучше использовать токены CSRF
 def add_question(request):
     if request.method == 'POST':
-        question_text = request.POST.get('question')
         pet_art = request.POST.get('petArt')
         pet_weight = request.POST.get('petWeight')
         pet_gender = request.POST.get('petGender')
         is_homeless = request.POST.get('isHomeless') == 'true'
+        user_id = request.POST.get('UserID')
 
         # Создаем объект Question
         question = Question.objects.create(
-            question=question_text,
             pet_art=pet_art,
             pet_weight=pet_weight,
             pet_gender=pet_gender,
             is_homeless=is_homeless,
+            user_id=user_id
         )
 
         # Получаем все загруженные файлы
@@ -30,6 +31,39 @@ def add_question(request):
             QuestionFile.objects.create(question=question, file=file)
 
         return JsonResponse({'message': 'Вопрос успешно сохранен!'}, status=201)
+
+    return JsonResponse({'error': 'Неверный запрос'}, status=400)
+
+"""Function for updating the last question for a specific user_id"""
+
+@csrf_exempt
+def update_question(request):
+    if request.method == 'POST':
+        try:
+            # Парсим JSON из тела запроса
+            data = json.loads(request.body)
+            user_id = data.get('user_id')
+            questions_text = data.get('questions')
+
+            # Проверка на наличие необходимых полей
+            if user_id is None or questions_text is None:
+                return JsonResponse({"error": "Необходимо указать user_id и questions"}, status=400)
+
+            # Находим последнюю запись по user_id
+            question = Question.objects.filter(user_id=user_id).last()
+            if question is None:
+                return JsonResponse({"error": "Запись с таким user_id не найдена"}, status=404)
+
+            # Обновляем поле question
+            question.question = questions_text
+            question.save()
+
+            return JsonResponse({"message": "Запись обновлена успешно"}, status=200)
+
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Ошибка в формате JSON"}, status=400)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
 
     return JsonResponse({'error': 'Неверный запрос'}, status=400)
 
