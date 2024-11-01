@@ -12,7 +12,7 @@ def add_question(request):
         pet_weight = request.POST.get('petWeight')
         pet_gender = request.POST.get('petGender')
         is_homeless = request.POST.get('isHomeless') == 'true'
-        user_id = request.POST.get('UserID')
+        user_id = request.POST.get('userID')
 
         # Создаем объект Question
         question = Question.objects.create(
