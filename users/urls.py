@@ -5,7 +5,7 @@ from .views import (
     google_oauth_redirect,
     facebook_oauth_redirect
 )
-from .views import RegisterView, LoginView, VerifyCodeView, UpdateProfileFieldsView
+from .views import RegisterView, LoginView, VerifyCodeView, UpdateProfileFieldsView, UpdateVerifyCodeView, VerifyCodeVetView
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -30,6 +30,10 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
 
     path('verify/', VerifyCodeView.as_view(), name='verify_code'),
+ 
+    path('update_verify_code/',UpdateVerifyCodeView.as_view(), name='Update_VerifyCode'),
+
+    path('verify_code_vet/', VerifyCodeVetView.as_view(), name='verify_code_vet'),
 
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
