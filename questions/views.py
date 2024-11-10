@@ -9,6 +9,7 @@ from rest_framework import status
 
 """Function for saving a question"""
 
+
 @csrf_exempt  # Для упрощения, но лучше использовать токены CSRF
 def add_question(request):
     if request.method == 'POST':
@@ -38,7 +39,9 @@ def add_question(request):
 
     return JsonResponse({'error': 'Неверный запрос'}, status=400)
 
+
 """Function for updating the last question for a specific user_id"""
+
 
 @csrf_exempt
 def update_question(request):
@@ -71,18 +74,16 @@ def update_question(request):
 
     return JsonResponse({'error': 'Неверный запрос'}, status=400)
 
-"""Api for answering questions on ID """
+
+"""Api for answering questions on ID"""
+
 
 class QuestionDetailView(APIView):
     def post(self, request):
         user_id = request.data.get('id')
         if not user_id:
             return Response({"error": "User ID is required"}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         questions = Question.objects.filter(user_id=user_id)
-        serializer = QuestionSerializer(questions, many=True)
+        serializer = QuestionSerializer(questions, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-
-
