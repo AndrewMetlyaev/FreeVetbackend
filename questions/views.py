@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Question, QuestionFile, Message
+from .models import Question, QuestionFile, Message, MessageFile
 import json
 from .serializers import QuestionSerializer, MessageSerializer
 from rest_framework.views import APIView
@@ -108,6 +108,11 @@ class AddMessageView(APIView):
             is_user=is_user,
             question_id=pk
         )
+
+        files = request.FILES.getlist('files')
+        for file in files:
+            MessageFile.objects.create(message=message, file=file)
+
         serializer = MessageSerializer(message, context={'request': request})
         return JsonResponse(serializer.data, status=201)
 
