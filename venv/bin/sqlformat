@@ -1,4 +1,4 @@
-#!/Users/andrejmetlaev/FreeVetbackend/.venv/bin/python
+#!/home/krutskih_ay/Freevet/FreeVetbackend/venv/bin/python3.10
 # -*- coding: utf-8 -*-
 import re
 import sys
