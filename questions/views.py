@@ -7,7 +7,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from users.models import Profile
+
 """Function for saving a question"""
+
 
 @csrf_exempt  # Для упрощения, но лучше использовать токены CSRF
 def add_question(request):
@@ -16,7 +18,7 @@ def add_question(request):
         pet_weight = request.POST.get('petWeight')
         pet_gender = request.POST.get('petGender')
         is_homeless = request.POST.get('isHomeless') == 'true'
-        user_id = request.POST.get('userID')
+        user_id = request.POST.get('userId')
 
         # Создаем объект Question
         question = Question.objects.create(
@@ -38,7 +40,9 @@ def add_question(request):
 
     return JsonResponse({'error': 'Неверный запрос'}, status=400)
 
+
 """Function for updating the last question for a specific user_id"""
+
 
 @csrf_exempt
 def update_question(request):

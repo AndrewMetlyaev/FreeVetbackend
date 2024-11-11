@@ -1,4 +1,6 @@
+
 from .models import Question, QuestionFile, Message, MessageFile
+
 from rest_framework import serializers
 
 class QuestionFileSerializer(serializers.ModelSerializer):
@@ -21,6 +23,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         exclude = ['user_id']  # Исключаем поле user_id
 
 
+
 class MessageFileSerializer(serializers.ModelSerializer):
     file_url = serializers.SerializerMethodField()  # Поле для полного URL файла
 
@@ -39,3 +42,4 @@ class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = '__all__'
+
